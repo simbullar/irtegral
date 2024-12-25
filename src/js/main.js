@@ -1,27 +1,65 @@
+// Select the resizers and elements
+const sidebarResizer = document.querySelector('.sidebar-resizer');
+const sidebar = document.querySelector('.sidebar');
 const resizer = document.querySelector('.resizer');
 const leftPane = document.querySelector('.pane-left');
 const container = document.querySelector('.main-area');
 
-let isResizing = false;
+// Variables for mouse position
+let isResizingSidebar = false;
+let isResizingPane = false;
 
-resizer.addEventListener('mousedown', (e) => {
-  isResizing = true;
+// Sidebar Resizer
+sidebarResizer.addEventListener('mousedown', (e) => {
+  isResizingSidebar = true;
+  document.body.style.userSelect = 'none'; // Prevent text selection
 
-  // Disable text selection while resizing
-  document.body.style.userSelect = 'none';
-
-  const startX = e.clientX; // Initial mouse position
-  const startWidth = leftPane.offsetWidth; // Initial width of the left pane
+  const startX = e.clientX;
+  const startWidth = sidebar.offsetWidth;
 
   const onMouseMove = (e) => {
-    if (!isResizing) return;
+    if (!isResizingSidebar) return;
 
-    const dx = e.clientX - startX; // Change in mouse position
-    const newWidth = startWidth + dx; // New width for the left pane
+    const dx = e.clientX - startX;
+    const newWidth = startWidth + dx;
 
-    // Apply constraints for minimum and maximum widths
-    const minWidth = 100; // Minimum width in px
-    const maxWidth = container.offsetWidth - 100; // Maximum width in px
+    // Constraints for sidebar width
+    const minWidth = 100;
+    const maxWidth = 600;
+
+    if (newWidth > minWidth && newWidth < maxWidth) {
+      sidebar.style.width = `${newWidth}px`;
+    }
+  };
+
+  const onMouseUp = () => {
+    isResizingSidebar = false;
+    document.body.style.userSelect = ''; // Re-enable text selection
+    window.removeEventListener('mousemove', onMouseMove);
+    window.removeEventListener('mouseup', onMouseUp);
+  };
+
+  window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('mouseup', onMouseUp);
+});
+
+// Pane Resizer
+resizer.addEventListener('mousedown', (e) => {
+  isResizingPane = true;
+  document.body.style.userSelect = 'none'; // Prevent text selection
+
+  const startX = e.clientX;
+  const startWidth = leftPane.offsetWidth;
+
+  const onMouseMove = (e) => {
+    if (!isResizingPane) return;
+
+    const dx = e.clientX - startX;
+    const newWidth = startWidth + dx;
+
+    // Constraints for pane width
+    const minWidth = 100;
+    const maxWidth = container.offsetWidth - 100;
 
     if (newWidth > minWidth && newWidth < maxWidth) {
       leftPane.style.width = `${newWidth}px`;
@@ -29,17 +67,12 @@ resizer.addEventListener('mousedown', (e) => {
   };
 
   const onMouseUp = () => {
-    isResizing = false;
-
-    // Re-enable text selection
-    document.body.style.userSelect = '';
-
-    // Cleanup event listeners
+    isResizingPane = false;
+    document.body.style.userSelect = ''; // Re-enable text selection
     window.removeEventListener('mousemove', onMouseMove);
     window.removeEventListener('mouseup', onMouseUp);
   };
 
-  // Attach mousemove and mouseup listeners
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('mouseup', onMouseUp);
 });
