@@ -23,7 +23,7 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.loadFile('src/main.html');
+  mainWindow.loadFile('./index.html');
     mainWindow.webContents.openDevTools(); // Uncomment for debugging
 };
 
