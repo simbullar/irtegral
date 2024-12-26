@@ -1,14 +1,13 @@
 {
   "name": "irtegral",
-  "productName": "Irtegral Notes",
+  "productName": "irtegral",
   "version": "1.0.0",
-  "description": "Opensource note-taker",
+  "description": "My Electron application description",
   "main": ".webpack/main",
   "scripts": {
-    "main": "electron-forge start",
+    "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "start": "electron .",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
@@ -38,8 +37,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "electron-squirrel-startup": "^1.0.1"
   }
 }

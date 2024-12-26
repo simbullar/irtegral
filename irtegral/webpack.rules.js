@@ -7,14 +7,13 @@ module.exports = [
     use: 'node-loader',
   },
   {
-    test: /\.jsx?$/,
+    test: /[/\\]node_modules[/\\].+\.(m?js|node)$/,
     parser: { amd: false },
     use: {
-      loader: 'babel-loader',
+      loader: '@vercel/webpack-asset-relocator-loader',
       options: {
-        exclude: /node_modules/,
-        presets: ['@babel/preset-react']
-      }
+        outputAssetBase: 'native_modules',
+      },
     },
   },
   // Put your webpack loader rules in this array.  This is where you would put
